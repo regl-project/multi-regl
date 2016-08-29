@@ -1,0 +1,35 @@
+{
+  "name": "multi-regl",
+  "version": "1.0.0",
+  "description": "Multiplex a regl context across many HTML elements",
+  "main": "multi.js",
+  "directories": {
+    "example": "example"
+  },
+  "dependencies": {
+    "regl": "^1.1.1"
+  },
+  "devDependencies": {
+    "gl-mat4": "^1.1.4",
+    "sphere-mesh": "^0.2.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikolalysenko/multi-regl.git"
+  },
+  "keywords": [
+    "multi",
+    "regl",
+    "element",
+    "graphics"
+  ],
+  "author": "Mikola Lysenko",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mikolalysenko/multi-regl/issues"
+  },
+  "homepage": "https://github.com/mikolalysenko/multi-regl#readme"
+}

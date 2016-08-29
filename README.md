@@ -40,18 +40,22 @@ regl2.frame(() => {
 ### Constructor
 
 #### `var multiREGL = require('multi-regl')([options])`
-Creates a multiplexed regl context across several div elements.  `options` takes the same inputs as `regl`'s constructor.  
+Creates a multiplexed regl context across several div elements.  `options` takes the same inputs as `regl`'s constructor.  It returns a procedure
 
 ### Properties
 
 #### `multiREGL.regl`
+A reference to the underlying `regl` object.
 
 ### Methods
 
-#### `multiREGL(options)`
+#### `var regl = multiREGL(containerElement)`
+Calling `multiREGL` with a DOM element returns a wrapped `regl` instance where `regl.frame` is overloaded to draw within the element.
+
+Calling `.destroy()` on this context removes the multiregl instance.
 
 ## How this works
-`multi-regl` creates a full screen canvas over the window which is fixed to the screen resolution.
+`multi-regl` creates a full screen canvas over the window which is fixed to the screen resolution.  Each frame all the visible
 
 ## License
 (c) 2016 Mikola Lysenko. MIT License

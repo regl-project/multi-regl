@@ -1,15 +1,5 @@
 const createREGL = require('regl')
 
-function wrapREGL (regl) {
-  function createCommand () {
-    return regl.apply(regl, Array.prototype.slice.call(arguments))
-  }
-  Object.keys(regl).forEach(function (option) {
-    createCommand[option] = regl[option]
-  })
-  return createCommand
-}
-
 module.exports = function createMultiplexor (inputs) {
   var reglInput = {}
   if (inputs) {
@@ -50,6 +40,13 @@ module.exports = function createMultiplexor (inputs) {
   var regl = createREGL(reglInput)
   var subcontexts = []
 
+  var viewBox = {
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0
+  }
+
   function createSubContext (input) {
     var element
     if (typeof input === 'object' && input) {
@@ -73,7 +70,28 @@ module.exports = function createMultiplexor (inputs) {
 
     subcontexts.push(subcontext)
 
-    var subREGL = wrapREGL(regl)
+    function wrapBox (boxDesc) {
+      return boxDesc
+    }
+
+    function subREGL (options) {
+      if ('viewport' in options) {
+        options.viewport = wrapBox(options.viewport)
+      }
+      if ('scissor' in options) {
+        if ('box' in options) {
+          options.scissor.box = wrapBox(options.scissor.box)
+        }
+        if ('enable' in options) {
+          options.scissor.box = true
+        }
+      }
+      return regl.apply(regl, Array.prototype.slice.call(arguments))
+    }
+
+    Object.keys(regl).forEach(function (option) {
+      subREGL[option] = regl[option]
+    })
 
     subREGL.frame = function subFrame (cb) {
       subcontext.callbacks.push(cb)
@@ -84,11 +102,15 @@ module.exports = function createMultiplexor (inputs) {
       }
     }
 
+    subREGL.destroy = function () {
+      subcontexts.splice(subcontexts.indexOf(subcontext), 1)
+    }
+
     return subREGL
   }
 
   createSubContext.destroy = function () {
-    // do nothing for now
+    regl.destroy()
   }
 
   createSubContext.regl = regl
@@ -111,13 +133,6 @@ module.exports = function createMultiplexor (inputs) {
     for (var i = 0; i < callbacks.length; ++i) {
       (callbacks[i])(context)
     }
-  }
-
-  var viewBox = {
-    x: 0,
-    y: 0,
-    width: 0,
-    height: 0
   }
 
   regl.frame(function (context) {

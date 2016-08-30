@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mikolalysenko/multi-regl.git"
+    "url": "git+https://github.com/regl-project/multi-regl.git"
   },
   "keywords": [
     "multi",
@@ -29,7 +29,7 @@
   "author": "Mikola Lysenko",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mikolalysenko/multi-regl/issues"
+    "url": "https://github.com/regl-project/multi-regl/issues"
   },
-  "homepage": "https://github.com/mikolalysenko/multi-regl#readme"
+  "homepage": "https://github.com/regl-project/multi-regl#readme"
 }

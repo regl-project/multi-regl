@@ -106,6 +106,8 @@ module.exports = function createMultiplexor (inputs) {
       subcontexts.splice(subcontexts.indexOf(subcontext), 1)
     }
 
+    subREGL.container = element
+
     return subREGL
   }
 

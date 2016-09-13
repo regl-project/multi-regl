@@ -138,6 +138,10 @@ module.exports = function createMultiplexor (inputs) {
   }
 
   regl.frame(function (context) {
+    regl.clear({
+      color: [0, 0, 0, 0]
+    })
+
     var width = window.innerWidth
     var height = window.innerHeight
 

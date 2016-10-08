@@ -1,6 +1,7 @@
 const createREGL = require('regl')
 
-module.exports = function createMultiplexor (inputs) {
+module.exports = function createMultiplexor (inputs, opts) {
+  if (!opts) opts = {}
   var reglInput = {}
   if (inputs) {
     Object.keys(inputs).forEach(function (input) {
@@ -107,13 +108,12 @@ module.exports = function createMultiplexor (inputs) {
       var mtex = function (opts) {
         if (!opts) opts = {}
         if (!opts.copy) return tex(opts)
-        return tex(Object.assign(opts,{
-          x: Math.max(0, window.innerWidth - 15 - element.clientWidth
-            - element.offsetLeft - window.scrollX + (opts.x || 0)),
-          y: Math.max(0, window.innerHeight - element.clientHeight
-            - element.offsetTop + window.scrollY + (opts.y || 0)),
-          width: opts.width !== undefined ? opts.width : element.clientWidth,
-          height: opts.height !== undefined ? opts.height : element.clientHeight
+        var rect = element.getBoundingClientRect()
+        return tex(Object.assign(opts, {
+          x: pixelRatio * (rect.left),
+          y: pixelRatio * (window.innerHeight - rect.bottom),
+          width: pixelRatio * (rect.right - rect.left),
+          height: pixelRatio * (rect.bottom - rect.top)
         }))
       }
       Object.keys(tex).forEach(function (key) {

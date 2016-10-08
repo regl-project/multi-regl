@@ -102,6 +102,26 @@ module.exports = function createMultiplexor (inputs) {
       }
     }
 
+    subREGL.texture = function () {
+      var tex = regl.texture.apply(regl, arguments)
+      var mtex = function (opts) {
+        if (!opts) opts = {}
+        if (!opts.copy) return tex(opts)
+        return tex(Object.assign(opts,{
+          x: Math.max(0, window.innerWidth - 15 - element.clientWidth
+            - element.offsetLeft - window.scrollX + (opts.x || 0)),
+          y: Math.max(0, window.innerHeight - element.clientHeight
+            - element.offsetTop + window.scrollY + (opts.y || 0)),
+          width: opts.width !== undefined ? opts.width : element.clientWidth,
+          height: opts.height !== undefined ? opts.height : element.clientHeight
+        }))
+      }
+      Object.keys(tex).forEach(function (key) {
+        mtex[key] = tex[key]
+      })
+      return mtex
+    }
+
     subREGL.destroy = function () {
       subcontexts.splice(subcontexts.indexOf(subcontext), 1)
     }

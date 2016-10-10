@@ -170,5 +170,6 @@ module.exports = function createMultiplexor (inputs) {
     }
   })
 
+  createSubContext.canvas = canvas
   return createSubContext
 }

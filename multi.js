@@ -1,6 +1,7 @@
 const createREGL = require('regl')
 
-module.exports = function createMultiplexor (inputs) {
+module.exports = function createMultiplexor (inputs, opts) {
+  if (!opts) opts = {}
   var reglInput = {}
   if (inputs) {
     Object.keys(inputs).forEach(function (input) {
@@ -100,6 +101,25 @@ module.exports = function createMultiplexor (inputs) {
           subcontext.callbacks.splice(subcontext.callbacks.indexOf(cb), 1)
         }
       }
+    }
+
+    subREGL.texture = function () {
+      var tex = regl.texture.apply(regl, arguments)
+      var mtex = function (opts) {
+        if (!opts) opts = {}
+        if (!opts.copy) return tex(opts)
+        var rect = element.getBoundingClientRect()
+        return tex(Object.assign(opts, {
+          x: pixelRatio * (rect.left),
+          y: pixelRatio * (window.innerHeight - rect.bottom),
+          width: pixelRatio * (rect.right - rect.left),
+          height: pixelRatio * (rect.bottom - rect.top)
+        }))
+      }
+      Object.keys(tex).forEach(function (key) {
+        mtex[key] = tex[key]
+      })
+      return mtex
     }
 
     subREGL.destroy = function () {

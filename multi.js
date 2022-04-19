@@ -13,9 +13,9 @@ module.exports = function createMultiplexor (inputs) {
 
   var canvas = document.createElement('canvas')
   var canvasStyle = canvas.style
-  canvasStyle.position = 'fixed'
+  canvasStyle.position = 'absolute'
   canvasStyle.left =
-  canvasStyle.top = '0px'
+  canvasStyle.top = '0'
   canvasStyle.width =
   canvasStyle.height = '100%'
   canvasStyle['pointer-events'] = 'none'
@@ -136,11 +136,19 @@ module.exports = function createMultiplexor (inputs) {
       (callbacks[i])(context)
     }
   }
+  
+  let lastScrollX=0,lastScrollY=0
 
   regl.frame(function (context) {
-    regl.clear({
-      color: [0, 0, 0, 0]
-    })
+    let scrollX=window.scrollX,scrollY=window.scrollY
+    if(scrollX !== lastScrollX || scrollY !== lastScrollY) {
+      canvasStyle.transform = `translateX(${scrollX}px) translateY(${scrollY}px)`
+      regl.clear({
+        color: [0, 0, 0, 0]
+      })
+      lastScrollX = scrollX
+      lastScrollY = scrollY
+    }
 
     var width = window.innerWidth
     var height = window.innerHeight

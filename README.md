@@ -6,7 +6,7 @@ Lets you use a single [regl](http://regl.party) context to render to multiple wi
 ## Example
 
 ```javascript
-const multiREGL = require('multi-regl')
+const multiREGL = require('multi-regl')()
 
 const div1 = document.createElement('div')
 div1.style.width = '500px'

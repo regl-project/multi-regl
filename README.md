@@ -1,5 +1,5 @@
 # multi-regl
-Lets you use a single [regl](http://regl.party) context to render to multiple windows within a single page.
+Lets you use a single [regl](https://regl-project.github.io) context to render to multiple windows within a single page.
 
 [Demo](https://regl-project.github.io/multi-regl/index.html).
 

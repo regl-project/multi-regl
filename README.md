@@ -6,7 +6,7 @@ Lets you use a single [regl](https://regl-project.github.io) context to render t
 ## Example
 
 ```javascript
-const multiREGL = require('multi-regl')
+const multiREGL = require('multi-regl')()
 
 const div1 = document.createElement('div')
 div1.style.width = '500px'
